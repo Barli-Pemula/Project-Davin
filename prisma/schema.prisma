@@ -1,0 +1,325 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+enum Role {
+  INVESTOR
+  NELAYAN
+  ADMIN
+  KOPERASI
+  FASILITATOR
+}
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  name String
+  passwordHash String
+  role Role
+  locked Boolean @default(false)
+  verified Boolean @default(false)
+  kusuka String?
+  location String @default("Karimunjawa, Jawa Tengah")
+  cooperativeId String?
+  cooperative Cooperative? @relation(fields:[cooperativeId], references:[id])
+  createdAt DateTime @default(now())
+  sessions AuthSession[]
+  memberships Membership[]
+  projects Project[]
+  kyc KycCase?
+  wallet Account?
+  orders Subscription[]
+  documents Document[]
+  alerts SecurityAlert[]
+  assignments Assignment[] @relation("Facilitator")
+  beneficiaries Assignment[] @relation("Beneficiary")
+}
+model AuthSession {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([userId])
+}
+model KycCase {
+  id String @id @default(cuid())
+  userId String @unique
+  user User @relation(fields:[userId], references:[id])
+  status String @default("DRAF")
+  liveness String @default("BELUM")
+  mfa Boolean @default(false)
+  reason String?
+  reviewedBy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([status,createdAt])
+}
+model Cooperative {
+  id String @id @default(cuid())
+  name String
+  registration String @unique
+  active Boolean @default(true)
+  users User[]
+  memberships Membership[]
+  projects Project[]
+  wallet Account?
+}
+model Membership {
+  id String @id @default(cuid())
+  userId String
+  cooperativeId String
+  active Boolean @default(true)
+  since DateTime @default(now())
+  user User @relation(fields:[userId],references:[id])
+  cooperative Cooperative @relation(fields:[cooperativeId],references:[id])
+  @@unique([userId,cooperativeId])
+}
+model Project {
+  id String @id @default(cuid())
+  ownerId String
+  owner User @relation(fields:[ownerId],references:[id])
+  cooperativeId String
+  cooperative Cooperative @relation(fields:[cooperativeId],references:[id])
+  title String
+  category String
+  location String
+  requested BigInt
+  plan String
+  status String @default("DRAF")
+  reason String?
+  signals Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scores ScoreRun[]
+  offering Offering?
+  reports Report[]
+  documents Document[]
+  @@index([status,createdAt])
+  @@index([ownerId])
+}
+model ScoreRun {
+  id String @id @default(cuid())
+  projectId String
+  project Project @relation(fields:[projectId],references:[id])
+  score Float?
+  classification String
+  provisional Boolean
+  newcomer Boolean
+  signals Json
+  weights Json
+  reason String
+  source String @default("Input ternormalisasi demo, bukan prediksi AI produksi")
+  version String @default("ACS-DEMO-1.0")
+  createdAt DateTime @default(now())
+  @@index([projectId,createdAt])
+}
+model Offering {
+  id String @id @default(cuid())
+  projectId String @unique
+  project Project @relation(fields:[projectId],references:[id])
+  slug String @unique
+  target BigInt
+  raised BigInt @default(0)
+  unitPrice BigInt @default(50000)
+  status String @default("DRAF")
+  opensAt DateTime
+  closesAt DateTime
+  publishedAt DateTime?
+  releasedAt DateTime?
+  activeVersion Int @default(1)
+  scenarioBps Int @default(1200)
+  createdAt DateTime @default(now())
+  prospectuses Prospectus[]
+  orders Subscription[]
+  escrow Account?
+  agreement Agreement?
+  @@index([status,closesAt])
+}
+model Prospectus {
+  id String @id @default(cuid())
+  offeringId String
+  offering Offering @relation(fields:[offeringId],references:[id])
+  version Int
+  risk String
+  proceeds String
+  payoutBps Int @default(8000)
+  content String
+  createdAt DateTime @default(now())
+  orders Subscription[]
+  @@unique([offeringId,version])
+}
+model Subscription {
+  id String @id @default(cuid())
+  investorId String
+  investor User @relation(fields:[investorId],references:[id])
+  offeringId String
+  offering Offering @relation(fields:[offeringId],references:[id])
+  prospectusId String
+  prospectus Prospectus @relation(fields:[prospectusId],references:[id])
+  amount BigInt
+  unitPrice BigInt
+  units Int
+  status String @default("TERKONFIRMASI")
+  acceptedAt DateTime @default(now())
+  riskAccepted Boolean @default(true)
+  requestKey String
+  @@unique([investorId,requestKey])
+  @@index([investorId,acceptedAt])
+  @@index([offeringId,status])
+}
+model Account {
+  id String @id @default(cuid())
+  key String @unique
+  kind String
+  userId String? @unique
+  user User? @relation(fields:[userId],references:[id])
+  cooperativeId String? @unique
+  cooperative Cooperative? @relation(fields:[cooperativeId],references:[id])
+  offeringId String? @unique
+  offering Offering? @relation(fields:[offeringId],references:[id])
+  balance BigInt @default(0)
+  lines JournalLine[]
+}
+model Journal {
+  id String @id @default(cuid())
+  eventKey String @unique
+  type String
+  reference String
+  actorId String?
+  hash String @unique
+  createdAt DateTime @default(now())
+  lines JournalLine[]
+}
+model JournalLine {
+  id String @id @default(cuid())
+  journalId String
+  journal Journal @relation(fields:[journalId],references:[id])
+  accountId String
+  account Account @relation(fields:[accountId],references:[id])
+  amount BigInt
+  @@index([accountId,journalId])
+}
+model Agreement {
+  id String @id @default(cuid())
+  offeringId String @unique
+  offering Offering @relation(fields:[offeringId],references:[id])
+  coopBps Int @default(6000)
+  fisherBps Int @default(4000)
+  status String @default("DRAF")
+  fisherSignedAt DateTime?
+  coopSignedAt DateTime?
+  stages Stage[]
+  distributions Distribution[]
+}
+model Stage {
+  id String @id @default(cuid())
+  agreementId String
+  agreement Agreement @relation(fields:[agreementId],references:[id])
+  number Int
+  title String
+  amount BigInt
+  status String @default("DIRENCANAKAN")
+  paidAt DateTime?
+  @@unique([agreementId,number])
+}
+model Report {
+  id String @id @default(cuid())
+  projectId String
+  project Project @relation(fields:[projectId],references:[id])
+  period String
+  progress Int
+  used BigInt
+  result BigInt
+  note String
+  status String @default("DIAJUKAN")
+  reason String?
+  createdAt DateTime @default(now())
+  distributions Distribution[]
+  documents Document[]
+  @@unique([projectId,period])
+  @@index([status,createdAt])
+}
+model Distribution {
+  id String @id @default(cuid())
+  agreementId String
+  agreement Agreement @relation(fields:[agreementId],references:[id])
+  reportId String
+  report Report @relation(fields:[reportId],references:[id])
+  type String
+  amount BigInt
+  details Json
+  createdAt DateTime @default(now())
+  @@unique([agreementId,reportId,type])
+}
+model Document {
+  id String @id @default(cuid())
+  ownerId String
+  owner User @relation(fields:[ownerId],references:[id])
+  projectId String?
+  project Project? @relation(fields:[projectId],references:[id])
+  reportId String?
+  report Report? @relation(fields:[reportId],references:[id])
+  kind String
+  name String
+  mime String
+  bytes Bytes
+  size Int
+  createdAt DateTime @default(now())
+}
+model SecurityAlert {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  type String
+  severity String
+  status String @default("TERBUKA")
+  assignedTo String?
+  note String?
+  createdAt DateTime @default(now())
+}
+model Assignment {
+  id String @id @default(cuid())
+  facilitatorId String
+  facilitator User @relation("Facilitator",fields:[facilitatorId],references:[id])
+  fisherId String
+  fisher User @relation("Beneficiary",fields:[fisherId],references:[id])
+  active Boolean @default(true)
+  notes FacilitatorNote[]
+  @@unique([facilitatorId,fisherId])
+}
+model FacilitatorNote {
+  id String @id @default(cuid())
+  assignmentId String
+  assignment Assignment @relation(fields:[assignmentId],references:[id])
+  body String
+  createdAt DateTime @default(now())
+}
+model Audit {
+  id String @id @default(cuid())
+  actorId String?
+  action String
+  entity String
+  entityId String
+  detail String
+  createdAt DateTime @default(now())
+  @@index([entity,entityId,createdAt])
+}
+model RequestKey {
+  id String @id @default(cuid())
+  actorId String
+  action String
+  key String
+  fingerprint String
+  result Json
+  createdAt DateTime @default(now())
+  @@unique([actorId,action,key])
+}
+model RateLimit {
+  key String @id
+  count Int @default(1)
+  windowStart DateTime @default(now())
+}

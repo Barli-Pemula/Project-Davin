@@ -1,16 +1,18 @@
 import "dotenv/config";
-import pg from "pg";
 import { execFileSync } from "node:child_process";
-const url = new URL(process.env.TEST_DATABASE_URL || process.env.DATABASE_URL);
-if (!process.env.TEST_DATABASE_URL) url.pathname += "_test";
-if (!url.pathname.includes("_test")) throw new Error("Pengujian wajib memakai database khusus dengan nama mengandung _test.");
-const name = url.pathname.slice(1);
-if (!/^[a-zA-Z0-9_]+$/.test(name)) throw new Error("Nama database tidak valid.");
-const admin = new URL(url); admin.pathname = "/postgres"; admin.search = "";
-const client = new pg.Client({connectionString: admin.toString()});
-await client.connect();
-if (!(await client.query("SELECT 1 FROM pg_database WHERE datname=$1", [name])).rowCount) await client.query(`CREATE DATABASE "${name}"`);
-await client.end();
-const env = {...process.env,DATABASE_URL:url.toString(),DIRECT_URL:url.toString(),DEMO_MODE:"true"};
-execFileSync(process.execPath,["node_modules/prisma/build/index.js","migrate","deploy"],{env,stdio:"inherit"});
-execFileSync(process.execPath,["--import","tsx","tests/integration.ts"],{env,stdio:"inherit"});
+import { mkdirSync } from "node:fs";
+
+if (!process.env.DATABASE_URL?.startsWith("file:")) {
+  throw new Error("Pengujian integrasi memerlukan SQLite lokal.");
+}
+mkdirSync(".local-demo", { recursive: true });
+const env = {
+  ...process.env,
+  DATABASE_URL: "file:../.local-demo/artanaya_test.db",
+  DEMO_MODE: "true",
+};
+execFileSync(process.execPath, ["scripts/setup-demo.mjs"], { env, stdio: "inherit" });
+execFileSync(process.execPath, ["--import", "tsx", "tests/integration.ts"], {
+  env,
+  stdio: "inherit",
+});

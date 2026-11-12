@@ -4,7 +4,7 @@ export default function ErrorPage({ reset }: { reset: () => void }) {
   return (
     <main id="main" className="loading-page">
       <h1>Belum dapat memuat halaman.</h1>
-      <p>Periksa koneksi aplikasi dan database, lalu coba lagi.</p>
+      <p>Coba muat ulang halaman. Jika masalah berlanjut, jalankan ulang demo lokal.</p>
       <button className="btn btn-primary" onClick={reset}>
         Coba lagi
       </button>

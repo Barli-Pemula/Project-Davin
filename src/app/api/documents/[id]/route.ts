@@ -12,11 +12,9 @@ export async function GET(
     include: { project: true, report: { include: { project: true } } },
   });
   if (!d) return new Response("Dokumen tidak ditemukan.", { status: 404 });
-  const p = d.project ?? d.report?.project;
   const allowed =
     d.ownerId === user.id ||
-    user.role === "ADMIN" ||
-    (user.role === "KOPERASI" && p?.cooperativeId === user.cooperativeId);
+    user.role === "ADMIN";
   if (!allowed)
     return new Response("Anda tidak memiliki akses.", { status: 403 });
   return new Response(d.bytes, {

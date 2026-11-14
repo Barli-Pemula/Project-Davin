@@ -47,6 +47,13 @@ if (local) {
   const { PrismaClient } = await import("@prisma/client");
   const db = new PrismaClient();
   try {
+    // Keep historical records but retire the two former demo roles.
+    await db.$executeRawUnsafe(
+      `UPDATE "User" SET "role" = 'ADMIN', "locked" = 1 WHERE "role" IN ('KOPERASI', 'FASILITATOR')`,
+    );
+    await db.$executeRawUnsafe(
+      `UPDATE "Assignment" SET "facilitatorId" = 'admin-demo' WHERE "facilitatorId" = 'fasilitator-demo' AND NOT EXISTS (SELECT 1 FROM "Assignment" a2 WHERE a2."facilitatorId" = 'admin-demo' AND a2."fisherId" = "Assignment"."fisherId")`,
+    );
     for (const table of ["Journal", "JournalLine", "Audit"]) {
       for (const operation of ["UPDATE", "DELETE"]) {
         await db.$executeRawUnsafe(

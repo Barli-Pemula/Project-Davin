@@ -26,7 +26,6 @@ import {
   ClipboardList,
   Users,
   ChevronRight,
-  Landmark,
   Info,
   Anchor,
 } from "lucide-react";
@@ -1455,11 +1454,11 @@ function AssignmentNotes({ data }: Props) {
   if (!data.assignments.length) return null;
   return (
     <div className="panel">
-      <h2>Pendampingan Karang Taruna</h2>
+      <h2>Catatan admin pendamping</h2>
       {data.assignments.map((a) => (
         <div className="report-item" key={a.id}>
           <strong>
-            {a.fisher.name} · Pendamping: {a.facilitator.name}
+            {a.fisher.name} · Admin pendamping: {a.facilitator.name}
           </strong>
           {a.notes.map((n) => (
             <div className="note-item" key={n.id}>
@@ -1477,8 +1476,8 @@ function AdminHome({ data }: Props) {
     <>
       <Heading
         eyebrow="PUSAT OPERASIONAL ARTANAYA"
-        title={`Selamat bertugas, ${data.user.name.split(" ")[0]}.`}
-        subtitle="Tinjau dengan cermat. Jaga kepercayaan di setiap langkah."
+        title={`Ringkasan operasional, ${data.user.name.split(" ")[0]}.`}
+        subtitle="Verifikasi, pengajuan, penawaran, dan laporan yang menunggu tindakan."
       />
       <div className="admin-hero">
         <div>
@@ -1653,6 +1652,7 @@ function AdminProjects({ data }: Props) {
         title="Pengajuan & aliran dana"
         subtitle="Skor, persetujuan, penerbitan, dan pencairan dalam satu ruang kerja."
       />
+      <AdminOffers data={data} />
       <div className="panel">
         <h2>Antrean & riwayat proyek</h2>
         {data.projects.map((p) => (
@@ -1931,16 +1931,14 @@ function AdminRadar({ data }: Props) {
   );
 }
 function Assignments({ data }: Props) {
-  const admin = data.user.role === "ADMIN";
   return (
     <>
       <Heading
-        title={admin ? "Pengaturan pendampingan" : "Ruang fasilitator"}
-        subtitle="Pendampingan untuk membuka peluang, selangkah demi selangkah."
+        title="Pendampingan nelayan"
+        subtitle="Catatan tindak lanjut dikelola oleh admin."
       />
-      {admin && (
         <div className="panel">
-          <h2>Tugaskan fasilitator</h2>
+          <h2>Tugaskan admin pendamping</h2>
           <ActionForm action="assignment.create" label="Simpan penugasan">
             <div className="form-grid">
               <label>
@@ -1956,10 +1954,10 @@ function Assignments({ data }: Props) {
                 </select>
               </label>
               <label>
-                Fasilitator
+                Admin pendamping
                 <select name="facilitatorId">
                   {data.people
-                    .filter((p) => p.role === "FASILITATOR")
+                    .filter((p) => p.role === "ADMIN")
                     .map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.name}
@@ -1970,7 +1968,6 @@ function Assignments({ data }: Props) {
             </div>
           </ActionForm>
         </div>
-      )}
       {!data.assignments.length && (
         <Empty text="Belum ada nelayan yang ditugaskan." />
       )}
@@ -1984,7 +1981,7 @@ function Assignments({ data }: Props) {
             <Tag status={a.fisher.verified ? "TERVERIFIKASI" : "DRAF"} />
           </div>
           <p>
-            {a.fisher.location} · Pendamping: {a.facilitator.name}
+            {a.fisher.location} · Admin pendamping: {a.facilitator.name}
           </p>
           {data.projects
             .filter((p) => p.ownerId === a.fisherId)
@@ -2004,7 +2001,7 @@ function Assignments({ data }: Props) {
               <small>{dateID(n.createdAt)}</small>
             </div>
           ))}
-          {!admin && (
+          {data.user.id === a.facilitatorId && (
             <ActionForm
               action="assignment.note"
               data={{ id: a.id }}
@@ -2027,35 +2024,11 @@ function Assignments({ data }: Props) {
     </>
   );
 }
-function Cooperative({ data }: Props) {
+function AdminOffers({ data }: Props) {
   return (
     <>
-      <Heading
-        eyebrow="KOPERASI SEBAGAI PENERBIT"
-        title="Ruang koperasi"
-        subtitle="Siapkan penawaran, setujui akad, dan dampingi usaha anggota."
-      />
-      <div className="stats-grid three">
-        <Stat
-          label="Saldo Simulasi koperasi"
-          value={rupiah(data.wallet?.balance ?? "0")}
-          detail="Dana escrow & porsi hasil usaha"
-          icon={<Wallet size={18} />}
-        />
-        <Stat
-          label="Usaha anggota"
-          value={String(data.projects.length)}
-          detail="Proyek pada koperasi Anda"
-          icon={<Fish size={18} />}
-        />
-        <Stat
-          label="Penawaran"
-          value={String(data.offerings.length)}
-          detail="Draf, aktif, dan selesai"
-          icon={<Landmark size={18} />}
-        />
-      </div>
-      {data.projects.map((p) => (
+      <div className="section-heading"><h2>Siapkan penawaran</h2></div>
+      {data.projects.filter((p) => p.status === "DISETUJUI" && !p.offering).map((p) => (
         <div className="panel" key={p.id}>
           <div className="panel-heading">
             <h2>{p.title}</h2>
@@ -2066,13 +2039,13 @@ function Cooperative({ data }: Props) {
           </p>
           <p>{p.plan}</p>
           <DocLinks documents={p.documents} />
-          {p.status === "DISETUJUI" && !p.offering && (
+          {(
             <details className="review-details">
               <summary>Susun penawaran & prospektus</summary>
               <ActionForm
                 action="offering.propose"
                 data={{ projectId: p.id }}
-                label="Ajukan penawaran ke admin"
+                label="Simpan draf penawaran"
               >
                 <div className="form-grid">
                   <label>
@@ -2136,13 +2109,12 @@ function Cooperative({ data }: Props) {
           {p.reason && <p className="review-note">{p.reason}</p>}
         </div>
       ))}
-      {data.offerings.map((o) => (
+      {data.offerings.filter((o) => o.agreement && !o.agreement.coopSignedAt).map((o) => (
         <div key={o.id}>
           <h2 className="subsection-title">{o.project.title}</h2>
-          <Agreement offer={o} role="KOPERASI" />
+          <Agreement offer={o} role="ADMIN" />
         </div>
       ))}
-      <Transactions data={data} />
     </>
   );
 }
@@ -2240,9 +2212,5 @@ export function PortalContent({
         );
       if (tab === "pengaturan") return <Assignments data={data} />;
       return <AdminHome data={data} />;
-    case "KOPERASI":
-      return <Cooperative data={data} />;
-    case "FASILITATOR":
-      return <Assignments data={data} />;
   }
 }

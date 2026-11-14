@@ -65,20 +65,6 @@ async function main() {
         verified: true,
       },
       {
-        id: "koperasi-demo",
-        name: "Ratna Wulandari",
-        role: "KOPERASI",
-        email: "koperasi@artanaya.demo",
-        verified: true,
-      },
-      {
-        id: "fasilitator-demo",
-        name: "Rizky Pratama",
-        role: "FASILITATOR",
-        email: "fasilitator@artanaya.demo",
-        verified: true,
-      },
-      {
         id: "nelayan-baru",
         name: "Sari Puspita",
         role: "NELAYAN",
@@ -102,7 +88,7 @@ async function main() {
         create: {
           ...u,
           passwordHash,
-          cooperativeId: u.role === "KOPERASI" ? coop.id : null,
+          cooperativeId: null,
           kusuka: u.role === "NELAYAN" ? "DEMO-****-2045" : null,
         },
         update: { passwordHash },
@@ -401,12 +387,12 @@ async function main() {
     await tx.assignment.upsert({
       where: {
         facilitatorId_fisherId: {
-          facilitatorId: "fasilitator-demo",
+          facilitatorId: "admin-demo",
           fisherId: "nelayan-baru",
         },
       },
       create: {
-        facilitatorId: "fasilitator-demo",
+        facilitatorId: "admin-demo",
         fisherId: "nelayan-baru",
         notes: {
           create: {
@@ -435,7 +421,7 @@ async function main() {
       );
   });
   console.log(
-    "Seed ARTANAYA selesai. Akun: investor / nelayan / admin / koperasi / fasilitator @artanaya.demo.",
+    "Seed ARTANAYA selesai. Akun: investor / nelayan / admin @artanaya.demo.",
   );
 }
 main()

@@ -18,8 +18,6 @@ export const rolePath = {
   INVESTOR: "/investor",
   NELAYAN: "/nelayan",
   ADMIN: "/admin",
-  KOPERASI: "/koperasi",
-  FASILITATOR: "/fasilitator",
 };
 export const statusLabel = (s: string) =>
   s

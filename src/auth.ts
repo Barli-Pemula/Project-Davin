@@ -33,7 +33,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const user = await db.user.findUnique({
           where: { email: parsed.data.email },
         });
-        if (!user || !(await compare(parsed.data.password, user.passwordHash)))
+        if (
+          !user ||
+          (user.role === "ADMIN" && user.locked) ||
+          !(await compare(parsed.data.password, user.passwordHash))
+        )
           return null;
         return { id: user.id, name: user.name, email: user.email };
       },

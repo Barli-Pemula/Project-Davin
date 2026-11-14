@@ -8,17 +8,7 @@ export async function loadPortal(user: User) {
     ? {}
     : user.role === "NELAYAN"
       ? { ownerId: user.id }
-      : user.role === "KOPERASI"
-        ? { cooperativeId: user.cooperativeId ?? "none" }
-        : user.role === "FASILITATOR"
-          ? {
-              owner: {
-                beneficiaries: {
-                  some: { facilitatorId: user.id, active: true },
-                },
-              },
-            }
-          : { offering: { publishedAt: { not: null } } };
+      : { offering: { publishedAt: { not: null } } };
   const offerings = await db.offering.findMany({
     where: investor
       ? { publishedAt: { not: null } }
@@ -56,12 +46,7 @@ export async function loadPortal(user: User) {
         },
         orderBy: { createdAt: "desc" },
       });
-  const wallet = await db.account.findFirst({
-    where:
-      user.role === "KOPERASI"
-        ? { cooperativeId: user.cooperativeId ?? "none" }
-        : { userId: user.id },
-  });
+  const wallet = await db.account.findFirst({ where: { userId: user.id } });
   const transactions = await db.journal.findMany({
     where: admin
       ? {}
@@ -124,9 +109,7 @@ export async function loadPortal(user: User) {
   const assignments = await db.assignment.findMany({
     where: admin
       ? {}
-      : user.role === "FASILITATOR"
-        ? { facilitatorId: user.id, active: true }
-        : { fisherId: user.id, active: true },
+      : { fisherId: user.id, active: true },
     include: {
       fisher: {
         select: { id: true, name: true, location: true, verified: true },
@@ -146,7 +129,9 @@ export async function loadPortal(user: User) {
   });
   const people = admin
     ? await db.user.findMany({
-        where: { role: { in: ["FASILITATOR", "NELAYAN"] } },
+        where: {
+          OR: [{ role: "NELAYAN" }, { role: "ADMIN", locked: false }],
+        },
         select: { id: true, name: true, role: true },
       })
     : [];
@@ -167,18 +152,8 @@ export async function loadPortal(user: User) {
       kusuka: user.kusuka,
     },
     wallet,
-    offerings: user.role === "FASILITATOR" ? [] : offerings,
-    projects:
-      user.role === "FASILITATOR"
-        ? projects.map((p) => ({
-            ...p,
-            documents: [],
-            reports: [],
-            plan: "",
-            signals: {},
-            requested: 0n,
-          }))
-        : projects,
+    offerings,
+    projects,
     orders,
     transactions,
     kyc,

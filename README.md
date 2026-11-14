@@ -40,8 +40,6 @@ Kata sandi: `ArtaDemo!2026` (atau `DEMO_PASSWORD` saat data contoh pertama dibua
 | Investor | `investor@artanaya.demo` |
 | Nelayan | `nelayan@artanaya.demo` |
 | Admin | `admin@artanaya.demo` |
-| Operator koperasi | `koperasi@artanaya.demo` |
-| Fasilitator | `fasilitator@artanaya.demo` |
 | Nelayan baru | `baru@artanaya.demo` |
 | Investor menunggu KYC | `ayu@artanaya.demo` |
 
@@ -51,7 +49,7 @@ Keluar untuk berpindah peran. Kode MFA dan buka Self-Lock adalah `123456`. Gunak
 
 1. Sebagai nelayan, buat proyek, isi sinyal 0–100, simpan draf, unggah rencana, lalu ajukan.
 2. Sebagai admin, tinjau dan setujui pengajuan.
-3. Sebagai koperasi, siapkan prospektus. Sebagai admin, terbitkan penawaran.
+3. Sebagai admin, siapkan prospektus, terbitkan penawaran, dan catat pendampingan nelayan.
 4. Sebagai investor, beli unit dengan saldo fiktif atau lakukan top-up demo. Portofolio dan jurnal berubah setelah refresh.
 5. Sebagai admin, coba pelepasan escrow, pencairan bertahap, distribusi laba, atau akhir periode dan refund.
 

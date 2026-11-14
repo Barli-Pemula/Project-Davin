@@ -12,7 +12,7 @@ ARTANAYA membantu nelayan pesisir mengajukan modal usaha melalui koperasi dan me
 | Investor dapat memahami apa yang dibeli dan memantau penggunaannya | Investor membuka prospektus, melakukan pembelian simulasi, dan melihat posisi, perkembangan usaha serta jejak transaksi. |
 | Pengelola dapat menelusuri keputusan dan aliran dana | Verifikasi, perubahan status, penerimaan dana, pencairan, pelaporan, serta distribusi atau refund memiliki referensi audit. |
 
-**P0** mencakup tiga portal utama, ruang kerja sederhana untuk koperasi dan fasilitator, verifikasi simulasi, scoring berbobot, penawaran dan transaksi simulasi, Dompetku, pelaporan, radar keamanan dan audit. **P1** mencakup Forum Bahari dengan posting dan komentar, artikel edukasi lengkap, serta konsultasi berbasis FAQ. Di P0, tampilkan halaman edukasi dengan artikel contoh dan bantuan WhatsApp melalui tautan konfigurasi atau tampilan informasi demo.
+**P0** mencakup portal nelayan, investor, dan admin, verifikasi simulasi, scoring berbobot, penawaran dan transaksi simulasi, Dompetku, pelaporan, pendampingan oleh admin, radar keamanan dan audit. **P1** mencakup Forum Bahari dengan posting dan komentar, artikel edukasi lengkap, serta konsultasi berbasis FAQ. Di P0, tampilkan halaman edukasi dengan artikel contoh dan bantuan WhatsApp melalui tautan konfigurasi atau tampilan informasi demo.
 
 Layanan pembayaran riil, penawaran efek riil, biometrik produksi, smart contract on-chain, model machine learning produksi, dan konsultasi AI terbuka berada pada fase lanjutan. Peluncuran produksi memerlukan validasi badan penerbit, jenis efek, dokumen dan mekanisme syariah, perizinan, mitra pembayaran, pelindungan data, serta tata kelola dana dan keputusan risiko.
 
@@ -22,12 +22,10 @@ Layanan pembayaran riil, penawaran efek riil, biometrik produksi, smart contract
 |---|---|
 | Investor | Mengelola identitas dan saldo demo sendiri, membaca penawaran terbit, menyetujui prospektus, membeli efek simulasi, memantau posisi dan riwayat. |
 | Nelayan | Mengelola profil dan data usaha sendiri, memilih koperasi tempat ia terdaftar, mengajukan modal, memperbaiki berkas, mengirim laporan, melihat jadwal dan Dompetku. |
-| Operator koperasi | Meninjau proyek anggota, mengusulkan penawaran sebagai penerbit, mengelola dokumen penawaran, serta mengonfirmasi pertanggungjawaban proyek koperasinya. |
-| Fasilitator Karang Taruna | Mendampingi nelayan yang ditugaskan, melihat indikator kelengkapan, mencatat tindak lanjut. Akses dibatasi pada data yang dibutuhkan untuk pendampingan. |
-| Admin pengelola | Meninjau KYC dan proyek, mengelola antrean, memvalidasi laporan, menerbitkan penawaran, mengotorisasi tindakan dana simulasi dan menindaklanjuti peringatan. |
+| Admin pengelola | Meninjau KYC dan proyek, menyiapkan prospektus atas nama koperasi penerbit, menyetujui sisi pengelola pada akad demo, mencatat pendampingan, memvalidasi laporan, menerbitkan penawaran, mengotorisasi tindakan dana simulasi dan menindaklanjuti peringatan. |
 | Pengunjung | Melihat halaman awal dan edukasi. Marketplace investor dan transaksi memakai sesi yang sesuai. |
 
-Tiga portal utama mengikuti Lampiran 8. Ruang koperasi dan fasilitator adalah tambahan MVP untuk menjalankan peran dalam Lampiran 6, 19, 21, dan 23. Regulator dan pengawas syariah direpresentasikan sebagai pemangku kepentingan, tanpa akun pada demo.
+Koperasi tetap tercatat sebagai lembaga penerbit dan pendamping dalam data usaha, tetapi pekerjaan operatornya dilakukan melalui portal admin. Regulator dan pengawas syariah direpresentasikan sebagai pemangku kepentingan, tanpa akun pada demo.
 
 ## 3. Kebutuhan fungsional
 
@@ -36,14 +34,14 @@ Tiga portal utama mengikuti Lampiran 8. Ruang koperasi dan fasilitator adalah ta
 | FR-01 | P0 | **Akun dan KYC.** Investor mengisi biodata dan menjalani alur dokumen serta MFA/liveness simulasi. Nelayan memakai nomor KUSUKA, dokumen pendukung dan bantuan pendaftaran. Admin menandai pengajuan valid atau perlu perbaikan dengan alasan. Akun investor wajib lolos KYC untuk membeli dan akun nelayan wajib lolos KYC untuk mengirim pengajuan. |
 | FR-02 | P0 | **Pengajuan nelayan.** Simpan draf dengan judul, kategori budidaya/tangkap, lokasi, koperasi, kebutuhan modal, rencana usaha, dokumen, dan data usaha. Status dan catatan revisi terlihat dari dasbor. Sistem menyimpan riwayat keputusan. |
 | FR-03 | P0 | **Skor kelayakan dan tinjauan.** Simpan lima sinyal, bobot efektif, versi aturan, penjelasan dan skor. Admin meninjau skor, lokasi, kelengkapan, dan data usaha. Keputusan admin memiliki alasan. Proyek revisi dapat diajukan ulang dan dihitung kembali. |
-| FR-04 | P0 | **Penawaran koperasi.** Operator koperasi menyusun penawaran dengan jenis efek demo, target, periode, harga unit, risiko, rencana penggunaan dana dan prospektus berversi. Admin menerbitkan penawaran setelah verifikasi. Proyek dengan skor sementara atau di bawah 50 belum dapat diterbitkan. |
+| FR-04 | P0 | **Penawaran koperasi.** Admin menyusun penawaran atas nama koperasi penerbit dengan jenis efek demo, target, periode, harga unit, risiko, rencana penggunaan dana dan prospektus berversi. Admin menerbitkan penawaran setelah verifikasi. Proyek dengan skor sementara atau di bawah 50 belum dapat diterbitkan. |
 | FR-05 | P0 | **Marketplace dan detail.** Beranda investor menampilkan portofolio ringkas, pencarian, filter kategori, progres pendanaan dan kartu proyek. Detail memuat koperasi penerbit, skor dan keterangannya, risiko, status ledger, prospektus, dan tombol pembelian untuk penawaran aktif. Tampilkan estimasi imbal hasil sebagai skenario apabila tersedia. |
 | FR-06 | P0 | **Pembelian efek simulasi.** Tinjau prospektus versi aktif, risiko, nominal, dan saldo. Izinkan top-up simulasi bila saldo kurang. Simpan versi persetujuan; pembelian berhasil tercermin di portofolio, progres, saldo, dan ledger sekali saja. Batas minimum demo Rp50.000 per pesanan. |
 | FR-07 | P0 | **Pencairan dan Dompetku.** Setelah target penuh dan penawaran sukses, catat perpindahan dana simulasi dari escrow ke koperasi. Setelah akad koperasi–nelayan aktif, admin mencairkan sesuai jadwal dan persetujuan tahap. Nelayan melihat saldo, riwayat, jadwal pelaporan/setoran, dan dokumen usaha. |
 | FR-08 | P0 | **Laporan, hasil, dan refund.** Nelayan mengirim progres, penggunaan dana, bukti, dan realisasi hasil usaha. Admin memvalidasi laporan. Bagi hasil mudharabah mengikuti nisbah akad atas laba yang divalidasi, sedangkan hak investor mengikuti prospektus efek dan periode terkait. Penawaran kedaluwarsa yang tidak mencapai target mengembalikan dana simulasi tiap pesanan tepat satu kali. |
 | FR-09 | P0 | **Portal admin dan radar.** Dasbor memuat tugas, antrean KYC/proyek/laporan, dana kelolaan demo dan log. Sediakan tinjauan berkas, Smart Contract Ledger Demo, Fraud Radar dengan sinyal geofencing dan liveness fiktif, serta pengaturan. Catat pemilik, status dan alasan tindak lanjut alert. |
 | FR-10 | P0 | **Keamanan akun.** Pusat keamanan investor menampilkan aktivitas dan Self-Lock. Saat terkunci, pembelian dan top-up diblokir di server. Pembukaan kembali melalui verifikasi ulang simulasi dan dicatat. |
-| FR-11 | P0 | **Pendampingan.** Admin menugaskan fasilitator; fasilitator melihat proyek yang ditugaskan, kelengkapan, dan catatan. Nelayan melihat tindak lanjut; pengambilan keputusan tetap ada pada admin. |
+| FR-11 | P0 | **Pendampingan.** Admin menugaskan admin pendamping untuk nelayan, melihat proyek dan kelengkapan, serta mencatat tindak lanjut. Nelayan melihat catatan; pengambilan keputusan tetap ada pada admin. |
 | FR-12 | P1 | **Edukasi dan Forum Bahari.** Artikel, panduan akad, forum termoderasi, profil dan Ruang Konsultasi berbasis FAQ contoh. Sediakan status kosong, pelaporan konten dan penyelesaian oleh admin jika forum aktif. |
 
 ## 4. Aturan keputusan
@@ -88,11 +86,11 @@ Bandingkan skor sebelum pembulatan tampilan. Lampiran 7 menyebut publikasi otoma
 ## 6. Skenario penerimaan MVP
 
 1. Nelayan baru yang memiliki empat sinyal wajib dapat memperoleh kelas skor biasa tanpa riwayat akad. Sinyal wajib yang hilang memicu skor awal, dan kasus tanpa sinyal menghasilkan skor kosong.
-2. Admin meminta revisi, nelayan mengirim ulang, admin menyetujui, koperasi mengusulkan penawaran, dan admin menerbitkannya. Kartu baru terlihat di marketplace setelah publikasi.
+2. Admin meminta revisi, nelayan mengirim ulang, admin menyetujui, menyiapkan penawaran atas nama koperasi, lalu menerbitkannya. Kartu baru terlihat di marketplace setelah publikasi.
 3. Investor terverifikasi membeli Rp50.000 setelah membaca prospektus dan top-up demo. Klik ganda memakai kunci yang sama menghasilkan satu pesanan dan satu mutasi. Dua pesanan bersamaan tidak menyebabkan sisa target negatif.
 4. Penawaran sukses mengalirkan dana ke koperasi. Tahap pertama cair setelah akad aktif dan tahap disetujui. Tahap yang belum disetujui atau melampaui pagu gagal dengan pesan jelas.
 5. Penawaran gagal mengembalikan dana sekali per pesanan. Setelah laporan valid, jalankan simulasi distribusi dan tampilkan riwayat yang sesuai pada portal pihak terkait.
-6. Investor yang mengunci akun tidak bisa top-up atau membeli. Investor lain, nelayan lain, operator koperasi berbeda dan fasilitator yang tidak ditugaskan gagal mengakses data privat di luar lingkupnya.
+6. Investor yang mengunci akun tidak bisa top-up atau membeli. Investor lain dan nelayan lain gagal mengakses data privat di luar lingkupnya. Admin yang bukan pendamping tidak dapat menulis catatan penugasan tersebut.
 
 ## 7. Pemetaan sumber
 

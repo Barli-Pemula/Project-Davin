@@ -269,16 +269,11 @@ export async function execute(
         break;
       }
       case "offering.propose": {
-        roles("KOPERASI");
+        roles("ADMIN");
         const d = data(action);
         const p = await tx.project.findUniqueOrThrow({
           where: { id: d.projectId },
         });
-        ensure(
-          p.cooperativeId === user.cooperativeId,
-          "Proyek berada di koperasi lain.",
-          403,
-        );
         ensure(p.status === "DISETUJUI", "Proyek belum disetujui.");
         ensure(
           BigInt(d.target) === p.requested && d.target % d.unitPrice === 0,
@@ -333,7 +328,7 @@ export async function execute(
           },
         });
         resultId = offer.id;
-        message = "Penawaran diajukan ke admin untuk publikasi.";
+        message = "Draf penawaran siap ditinjau dan diterbitkan admin.";
         break;
       }
       case "offering.publish": {
@@ -531,16 +526,14 @@ export async function execute(
         break;
       }
       case "agreement.sign": {
-        roles("NELAYAN", "KOPERASI");
+        roles("NELAYAN", "ADMIN");
         const d = data(action);
         const a = await tx.agreement.findUniqueOrThrow({
           where: { id: d.id },
           include: { offering: { include: { project: true } } },
         });
         ensure(
-          user.role === "NELAYAN"
-            ? a.offering.project.ownerId === actorId
-            : a.offering.project.cooperativeId === user.cooperativeId,
+          user.role === "ADMIN" || a.offering.project.ownerId === actorId,
           "Akad berada di luar akses Anda.",
           403,
         );
@@ -550,7 +543,7 @@ export async function execute(
             ? (a.fisherSignedAt ?? new Date())
             : a.fisherSignedAt;
         const coopSignedAt =
-          user.role === "KOPERASI"
+          user.role === "ADMIN"
             ? (a.coopSignedAt ?? new Date())
             : a.coopSignedAt;
         await tx.agreement.update({
@@ -863,7 +856,7 @@ export async function execute(
           where: { id: d.fisherId },
         });
         ensure(
-          f.role === "FASILITATOR" && n.role === "NELAYAN",
+          f.role === "ADMIN" && n.role === "NELAYAN",
           "Peran penugasan tidak sesuai.",
         );
         await tx.assignment.upsert({
@@ -874,7 +867,7 @@ export async function execute(
         break;
       }
       case "assignment.note": {
-        roles("FASILITATOR");
+        roles("ADMIN");
         const d = data(action);
         const a = await tx.assignment.findUniqueOrThrow({
           where: { id: d.id },

@@ -155,7 +155,7 @@ export default function Education() {
                   Hubungi bantuan melalui WhatsApp
                 </a>
               ) : (
-                "Bantuan demo: masuk sebagai fasilitator untuk melihat pendampingan nelayan yang ditugaskan. Kanal WhatsApp belum dikonfigurasi."
+                "Bantuan demo: admin melihat pendampingan nelayan yang ditugaskan. Kanal WhatsApp belum dikonfigurasi."
               )}
             </p>
           </details>

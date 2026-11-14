@@ -16,21 +16,19 @@ export default function Login() {
         />
         <Brand light />
         <div>
-          <span className="eyebrow">BERLAYAR. BERTUMBUH. BERSAMA.</span>
+          <span className="eyebrow">RUANG KERJA ARTANAYA</span>
           <h2>
-            Dari laut yang luas,
+            Rencana usaha,
             <br />
-            untuk harapan
+            pendanaan, dan
             <br />
-            yang tak terbatas.
+            laporan di satu tempat.
           </h2>
           <p>
-            Kepercayaan menghubungkan kita.
-            <br />
-            Kolaborasi menggerakkan masa depan.
+            Pilih akun nelayan, investor, atau admin untuk mencoba alur demo.
           </p>
         </div>
-        <small>ARTANAYA · DIGITAL TRUST INFRASTRUCTURE</small>
+        <small>ARTANAYA · PEMBIAYAAN MARITIM · MODE DEMO</small>
       </section>
       <section className="auth-content">
         <div className="mobile-brand">

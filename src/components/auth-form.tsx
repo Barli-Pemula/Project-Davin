@@ -7,9 +7,7 @@ import {
   Eye,
   EyeOff,
   Fish,
-  Landmark,
   ShieldCheck,
-  Users,
   Wallet,
   LoaderCircle,
 } from "lucide-react";
@@ -26,14 +24,6 @@ const roleDescriptions: Record<string, { title: string; detail: string }> = {
   admin: {
     title: "Kelola sebagai admin",
     detail: "Tinjau pengajuan, verifikasi, serta catatan transaksi demo.",
-  },
-  koperasi: {
-    title: "Masuk ke ruang koperasi",
-    detail: "Lihat peran koperasi dalam penerbitan dan pendampingan usaha.",
-  },
-  fasilitator: {
-    title: "Dampingi sebagai fasilitator",
-    detail: "Ikuti kebutuhan nelayan dan catatan pendampingan demo.",
   },
 };
 export function AuthForm({
@@ -102,7 +92,7 @@ export function AuthForm({
       <p className="role-prompt">
         {register ? "DAFTAR SEBAGAI" : "COBA SEBAGAI"}
       </p>
-      <div className="role-picker">
+      <div className={`role-picker ${register ? "two" : ""}`}>
         {(register
           ? ([
               ["investor", "Investor", Wallet],
@@ -112,8 +102,6 @@ export function AuthForm({
               ["investor", "Investor", Wallet],
               ["nelayan", "Nelayan", Fish],
               ["admin", "Admin", ShieldCheck],
-              ["koperasi", "Koperasi", Landmark],
-              ["fasilitator", "Fasilitator", Users],
             ] as const)
         ).map(([id, label, Icon]) => (
           <button

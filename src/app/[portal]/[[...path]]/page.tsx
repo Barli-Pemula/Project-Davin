@@ -12,7 +12,7 @@ export default async function PortalPage({
 }) {
   const { portal, path = [] } = await params;
   if (
-    !["investor", "nelayan", "admin", "koperasi", "fasilitator"].includes(
+    !["investor", "nelayan", "admin"].includes(
       portal,
     )
   )
@@ -35,7 +35,7 @@ export default async function PortalPage({
               "radar",
               "pengaturan",
             ]
-          : [""];
+          : [];
   if (
     !valid.includes(path[0] ?? "") ||
     path.length > 2 ||

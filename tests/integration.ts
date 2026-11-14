@@ -14,10 +14,7 @@ const ids = Object.fromEntries(
     "other",
     "investor",
     "second",
-    "coop",
-    "wrongcoop",
-    "facilitator",
-    "wrongfacilitator",
+    "otherAdmin",
   ].map((x) => [x, `${x}-${runId}`]),
 );
 const coopId = `coop-${runId}`,
@@ -70,7 +67,7 @@ async function createProject(title: string, target = 100000) {
 }
 async function propose(projectId: string, target: number) {
   return (
-    await act("coop", "offering.propose", {
+    await act("admin", "offering.propose", {
       projectId,
       target,
       unitPrice: 50000,
@@ -94,10 +91,7 @@ async function main() {
     other: "NELAYAN",
     investor: "INVESTOR",
     second: "INVESTOR",
-    coop: "KOPERASI",
-    wrongcoop: "KOPERASI",
-    facilitator: "FASILITATOR",
-    wrongfacilitator: "FASILITATOR",
+    otherAdmin: "ADMIN",
   };
   for (const [key, id] of Object.entries(ids)) {
     await db.user.create({
@@ -108,8 +102,7 @@ async function main() {
         passwordHash: "not-used-by-service-tests",
         role: roleMap[key],
         verified: true,
-        cooperativeId:
-          key === "coop" ? coopId : key === "wrongcoop" ? otherCoopId : null,
+        cooperativeId: null,
       },
     });
     await db.account.create({
@@ -193,7 +186,7 @@ async function main() {
   );
   await rejected(
     () =>
-      act("wrongcoop", "offering.propose", {
+      act("investor", "offering.propose", {
         projectId,
         target: 100000,
         unitPrice: 50000,
@@ -201,7 +194,7 @@ async function main() {
         risk: "Risiko cuaca dan harga hasil usaha.",
         proceeds: "Operasional dan persiapan usaha nelayan.",
       }),
-    "Operator koperasi lain ditolak",
+    "Investor tidak dapat menyiapkan penawaran",
   );
   const offerId = await propose(projectId, 100000);
   let o = await db.offering.findUniqueOrThrow({
@@ -295,10 +288,10 @@ async function main() {
     "Dana tidak cair tanpa akad aktif",
   );
   await act("fisher", "agreement.sign", { id: a.id, accepted: true });
-  await act("coop", "agreement.sign", { id: a.id, accepted: true });
+  await act("admin", "agreement.sign", { id: a.id, accepted: true });
   await rejected(
-    () => act("wrongcoop", "agreement.sign", { id: a.id, accepted: true }),
-    "Akad koperasi lain ditolak",
+    () => act("investor", "agreement.sign", { id: a.id, accepted: true }),
+    "Investor tidak dapat menyetujui akad",
   );
   await act("admin", "offering.release", { id: offerId });
   await act("admin", "offering.release", { id: offerId });
@@ -470,25 +463,25 @@ async function main() {
   );
   await act("admin", "assignment.create", {
     fisherId: ids.fisher,
-    facilitatorId: ids.facilitator,
+    facilitatorId: ids.admin,
   });
   const assignment = await db.assignment.findUniqueOrThrow({
     where: {
       facilitatorId_fisherId: {
-        facilitatorId: ids.facilitator,
+        facilitatorId: ids.admin,
         fisherId: ids.fisher,
       },
     },
   });
   await rejected(
     () =>
-      act("wrongfacilitator", "assignment.note", {
+      act("otherAdmin", "assignment.note", {
         id: assignment.id,
         body: "Tidak boleh melihat penugasan lain",
       }),
-    "Fasilitator tanpa penugasan ditolak",
+    "Admin lain tanpa penugasan ditolak",
   );
-  await act("facilitator", "assignment.note", {
+  await act("admin", "assignment.note", {
     id: assignment.id,
     body: "Catat produksi secara rutin dan lengkap.",
   });

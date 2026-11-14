@@ -17,10 +17,8 @@ import {
   Link2,
   Radar,
   Settings2,
-  Users,
   Bell,
   Anchor,
-  Landmark,
   Menu,
   X,
 } from "lucide-react";
@@ -32,8 +30,6 @@ const roleLabels = {
   INVESTOR: "Investor",
   NELAYAN: "Nelayan",
   ADMIN: "Administrator",
-  KOPERASI: "Operator koperasi",
-  FASILITATOR: "Fasilitator",
 };
 const navigation = {
   INVESTOR: [
@@ -58,8 +54,6 @@ const navigation = {
     ["/admin/radar", "Fraud Radar", Radar],
     ["/admin/pengaturan", "Pendampingan", Settings2],
   ],
-  KOPERASI: [["/koperasi", "Ruang koperasi", Landmark]],
-  FASILITATOR: [["/fasilitator", "Pendampingan", Users]],
 } as const;
 export function Shell({
   data,
@@ -118,8 +112,8 @@ export function Shell({
           <div className="icon-box">
             <Anchor size={20} />
           </div>
-          <h4>Kenali langkah Anda.</h4>
-          <p>Pahami cara kerja dan risiko sebelum mulai mendanai.</p>
+          <h4>Pahami prosesnya.</h4>
+          <p>Pelajari pengajuan, penawaran, dan risiko dana simulasi.</p>
           <Link href="/edukasi">
             Baca panduan <ArrowUpRight size={15} />
           </Link>

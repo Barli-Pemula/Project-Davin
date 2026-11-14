@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./redesign.css";
 export const metadata: Metadata = {
   title: {
     default: "ARTANAYA — Berlayar. Bertumbuh. Bersama.",
@@ -19,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" data-scroll-behavior="smooth">
+    <html lang="id" data-type="software" data-radius="soft" data-buttons="solid" data-scroll-behavior="smooth">
       <body>
         <a className="skip-link" href="#main">
           Lewati ke konten

@@ -9,3 +9,4 @@ tmp/
 prisma/schema.postgres.generated.prisma
 *.tsbuildinfo
 coverage/
+.taste-skill/

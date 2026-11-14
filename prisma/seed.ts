@@ -93,6 +93,9 @@ async function main() {
         verified: false,
       },
     ];
+    await tx.rateLimit.deleteMany({
+      where: { key: { in: users.map((u) => `login:${u.email}`) } },
+    });
     for (const u of users) {
       await tx.user.upsert({
         where: { email: u.email },
@@ -102,7 +105,7 @@ async function main() {
           cooperativeId: u.role === "KOPERASI" ? coop.id : null,
           kusuka: u.role === "NELAYAN" ? "DEMO-****-2045" : null,
         },
-        update: {},
+        update: { passwordHash },
       });
       await tx.account.upsert({
         where: { key: `wallet:${u.id}` },

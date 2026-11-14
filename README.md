@@ -14,7 +14,21 @@ npm run dev
 
 Di macOS/Linux gunakan `cp .env.example .env`. Buka http://localhost:3000. Perintah `npm run dev` menyiapkan file SQLite, mengisi akun dan proyek contoh, lalu menjalankan Next.js. Data tersimpan di `.local-demo/artanaya.db` dan tidak masuk Git. Untuk port lain, jalankan `npm run dev -- -p 3001` belum didukung; gunakan `npm run db:setup` lalu `npx next dev -p 3001`.
 
-Jika `.env` lama masih berisi URL PostgreSQL, ganti `DATABASE_URL` menjadi `file:../.local-demo/artanaya.db` dan hapus `DIRECT_URL`. Isi `AUTH_SECRET` dengan nilai acak yang panjang untuk penggunaan di luar laptop pribadi. Setelah mengubah struktur data, jalankan `npm run db:setup`. Perintah ini aman dijalankan ulang dan tidak menghapus data demo yang sudah ada.
+Jika `.env` lama masih berisi URL PostgreSQL, ganti `DATABASE_URL` menjadi `file:../.local-demo/artanaya.db` untuk demo lokal. Isi `AUTH_SECRET` dengan nilai acak yang panjang. Setelah mengubah struktur data, jalankan `npm run db:setup`. Perintah ini aman dijalankan ulang dan tidak menghapus data demo yang sudah ada. Jika muncul halaman “Server error”, jalankan `npm run db:setup`, lalu mulai ulang `npm run dev` dan buka `http://localhost:3000/masuk`.
+
+## Deploy ke Vercel
+
+File SQLite lokal tidak dapat dipakai sebagai database persisten di Vercel. Hubungkan satu database PostgreSQL dari Vercel Marketplace (misalnya Neon) ke proyek Vercel. Pada **Settings → Environment Variables**, pastikan variabel berikut tersedia untuk deployment yang dipakai:
+
+| Variabel | Nilai |
+| --- | --- |
+| `DATABASE_URL` | URL PostgreSQL dari integrasi database; awalan `postgresql://` atau `postgres://` |
+| `AUTH_SECRET` | String acak panjang, minimal 32 karakter; pertahankan nilainya antar redeploy |
+| `AUTH_TRUST_HOST` | `true` |
+| `DEMO_MODE` | `true` |
+| `DEMO_PASSWORD` | `ArtaDemo!2026` agar cocok dengan tombol akun demo |
+
+Jangan salin `DATABASE_URL=file:...` atau `AUTH_URL=http://localhost:3000` ke Vercel. Bila integrasi memberi nama variabel berbeda, salin **nilainya** ke `DATABASE_URL`. Deploy ulang setelah mengubah variabel. Saat build, aplikasi otomatis menerapkan migrasi dan mengisi akun serta proyek contoh. Tidak perlu menjalankan seed manual di server. URL database dan secret harus tetap rahasia.
 
 ## Akun demo
 
@@ -56,4 +70,4 @@ Pengujian integrasi memakai `.local-demo/artanaya_test.db`, terpisah dari data d
 
 ## Batas penggunaan
 
-Penyimpanan SQLite ditujukan untuk satu instalasi lokal. Hosting serverless seperti Vercel tidak menyediakan file lokal persisten antar permintaan; agar seluruh fitur dapat dipakai bersama secara online diperlukan layanan database persisten dan konfigurasi deploy yang sesuai. Jangan gunakan konfigurasi demo ini untuk uang atau identitas nyata.
+SQLite ditujukan untuk satu instalasi lokal; Vercel menggunakan PostgreSQL hosted. Data lokal dan data online terpisah. Jangan gunakan konfigurasi demo ini untuk uang atau identitas nyata.

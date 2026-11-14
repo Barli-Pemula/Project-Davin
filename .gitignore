@@ -6,5 +6,6 @@ node_modules/
 tmp/
 .local-postgres/
 .local-demo/
+prisma/schema.postgres.generated.prisma
 *.tsbuildinfo
 coverage/

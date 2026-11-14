@@ -26,10 +26,12 @@
   --mint: #edf7f3;
   --amber: #edbd6b;
   --ink: #213a3f;
-  --muted: #718186;
+  --muted: #566e72;
   --line: #e3e9e8;
   --bg: #f6f8f8;
   --radius: 15px;
+  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
 }
 * {
   box-sizing: border-box;
@@ -41,8 +43,8 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  font-size: 14px;
+  font-family: var(--font-body);
+  font-size: 15px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
@@ -4107,6 +4109,342 @@ td strong {
   }
   .desktop-only {
     display: none;
+  }
+}
+/* Clear reading hierarchy across the public site and demo workspace. */
+.landing h1,
+.landing h2,
+.landing h3,
+.education-page h1,
+.education-card h2,
+.auth-art h2,
+.auth-form h1,
+.register-page h1,
+.page-heading h1,
+.section-heading h2,
+.portfolio-hero h2,
+.learning-card h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 750;
+}
+.hero-copy h1 {
+  font-weight: 400;
+  letter-spacing: -0.055em;
+}
+.hero-copy > p {
+  max-width: 470px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #526b6f;
+}
+.hero-copy > p strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+.hero-assurance {
+  font-size: 11px;
+  color: #55716c;
+}
+.hero-assurance strong {
+  color: var(--teal-dark);
+}
+.trust-strip small {
+  font-size: 12px;
+  color: #59716e;
+}
+.hero-guidance {
+  max-width: 470px;
+  margin-top: 24px;
+  padding: 15px 19px;
+  border-left: 3px solid var(--teal);
+  border-radius: 0 12px 12px 0;
+  background: linear-gradient(110deg, #edf7f2, #f7faf6);
+}
+.hero-guidance > span,
+.role-prompt {
+  display: block;
+  color: var(--teal-dark);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+}
+.hero-guidance p {
+  margin: 6px 0;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.hero-guidance a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--teal-dark);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.landing-section h2,
+.how-section h2 {
+  font-size: clamp(34px, 3.2vw, 44px);
+  line-height: 1.14;
+}
+.section-intro {
+  max-width: 590px;
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.story-card,
+.education-card,
+.stat-card {
+  box-shadow: 0 12px 34px rgb(18 51 61 / 4%);
+}
+.story-card {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.story-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 38px rgb(18 51 61 / 10%);
+}
+.story-card h3 {
+  font-size: 24px;
+  line-height: 1.18;
+}
+.story-card p,
+.how-section li p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.how-section li {
+  padding: 19px 16px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+.how-section li:hover {
+  background: #f0f7f3;
+}
+.how-section li > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 50%;
+  background: #e5f3ec;
+  color: var(--teal-dark);
+  font-size: 12px;
+  font-weight: 750;
+}
+.how-section li h3 {
+  font-size: 17px;
+  color: var(--navy);
+}
+.landing-cta h2 {
+  font-size: 40px;
+  line-height: 1.15;
+}
+.education-page > h1 {
+  line-height: 1.12;
+}
+.education-card {
+  border-top: 3px solid #9ccbb8;
+}
+.education-card h2 {
+  font-size: 23px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.education-card p,
+.faq details p {
+  font-size: 14px;
+  line-height: 1.75;
+}
+.faq summary {
+  color: var(--navy);
+  font-size: 15px;
+}
+.faq details[open] summary {
+  color: var(--teal-dark);
+}
+.auth-form h1,
+.register-page h1 {
+  font-size: 36px;
+  line-height: 1.13;
+}
+.auth-form > p.muted {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.role-prompt {
+  margin-top: 25px;
+}
+.role-picker {
+  margin: 10px 0 12px;
+}
+.role-picker button {
+  font-size: 11px;
+  font-weight: 650;
+  color: #526b68;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    transform 0.2s;
+}
+.role-picker button:hover {
+  border-color: #8db8a3;
+  transform: translateY(-2px);
+}
+.role-picker button.selected {
+  border-color: var(--teal);
+  background: #e8f5ee;
+  box-shadow: 0 0 0 2px rgb(22 125 118 / 12%);
+}
+.role-explainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 23px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: #f2f7f5;
+  color: var(--navy);
+}
+.role-explainer strong {
+  font-size: 13px;
+}
+.role-explainer span {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.demo-credentials p,
+.demo-credentials code {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.page-heading h1 {
+  font-size: clamp(29px, 2.5vw, 36px);
+  line-height: 1.17;
+}
+.page-heading p,
+.section-heading p {
+  font-size: 13px;
+  line-height: 1.55;
+}
+.section-heading h2,
+.dashboard-lower .section-heading h2 {
+  font-size: 25px;
+  line-height: 1.2;
+}
+.panel-heading h2 {
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+.portfolio-hero h2 {
+  font-size: 34px;
+  line-height: 1.12;
+}
+.portfolio-hero p {
+  font-size: 12px;
+}
+.stat-label {
+  font-size: 12px;
+  color: #59716f;
+}
+.stat-card > strong {
+  font-size: 26px;
+  color: var(--navy);
+}
+.stat-card > small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.project-card h3 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1.2;
+  min-height: 46px;
+}
+.project-meta > span:first-child,
+.issuer,
+.project-scenario > span,
+.project-card-body > .muted {
+  font-size: 11px;
+  color: #5e7471;
+}
+.project-scenario {
+  flex-wrap: wrap;
+}
+.project-scenario > strong {
+  color: var(--teal-dark);
+  font-size: 16px;
+}
+.project-scenario small {
+  font-size: 10px;
+}
+.funding-caption strong,
+.funding-caption > span,
+.project-card-bottom > span,
+.project-card-bottom > a {
+  font-size: 11px;
+}
+.text-link svg,
+.hero-guidance a svg {
+  transition: transform 0.2s;
+}
+.text-link:hover svg,
+.hero-guidance a:hover svg {
+  transform: translateX(3px);
+}
+@media (max-width: 800px) {
+  .hero-copy .eyebrow {
+    font-size: 10px;
+  }
+  .hero-copy > p {
+    font-size: 14px;
+  }
+  .landing-section h2,
+  .how-section h2 {
+    font-size: 33px;
+  }
+  .story-card h3 {
+    font-size: 22px;
+  }
+  .portfolio-hero h2 {
+    font-size: 29px;
+  }
+}
+@media (max-width: 600px) {
+  .hero-guidance {
+    margin-top: 18px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(42px, 11vw, 54px);
+  }
+  .section-intro {
+    font-size: 13px;
+  }
+  .auth-form h1,
+  .register-page h1 {
+    font-size: 31px;
+  }
+  .role-picker button {
+    font-size: 10px;
+  }
+  .education-card h2 {
+    font-size: 21px;
+  }
+  .project-card h3 {
+    font-size: 19px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

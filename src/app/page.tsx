@@ -42,9 +42,9 @@ export default function Home() {
               <em>bersama.</em>
             </h1>
             <p>
-              Hubungkan niat baik Anda dengan usaha nelayan Indonesia.
-              Pembiayaan melalui koperasi, berlandaskan prinsip syariah dan
-              transparansi.
+              Hubungkan niat baik Anda dengan{" "}
+              <strong>usaha nelayan Indonesia.</strong> Pembiayaan melalui
+              koperasi, berlandaskan prinsip syariah dan transparansi.
             </p>
             <div className="hero-actions">
               <Button asChild size="lg">
@@ -58,7 +58,17 @@ export default function Home() {
             </div>
             <div className="hero-assurance">
               <ShieldCheck size={18} /> Transparan sejak awal <span>•</span>{" "}
-              Mulai Rp50.000
+              <strong>Mulai Rp50.000</strong>
+            </div>
+            <div className="hero-guidance">
+              <span>BARU DI ARTANAYA?</span>
+              <p>
+                Pilih akun demo, kenali proyek, lalu coba alurnya tanpa uang
+                asli.
+              </p>
+              <Link href="/edukasi">
+                Lihat panduan singkat <ArrowRight size={15} />
+              </Link>
             </div>
           </div>
           <div className="hero-visual">
@@ -116,6 +126,10 @@ export default function Home() {
             <div>
               <span className="eyebrow">LANGKAH KECIL, DAMPAK BERARTI</span>
               <h2>Kenali usaha di balik harapan.</h2>
+              <p className="section-intro">
+                Lihat cerita usahanya, lalu pelajari rencana dan risikonya
+                sebelum mencoba pendanaan.
+              </p>
             </div>
             <Link className="text-link" href="/masuk">
               Lihat pendanaan <ArrowRight size={17} />

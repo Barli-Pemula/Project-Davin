@@ -14,6 +14,28 @@ import {
   LoaderCircle,
 } from "lucide-react";
 import { Button } from "./ui/button";
+const roleDescriptions: Record<string, { title: string; detail: string }> = {
+  investor: {
+    title: "Jelajahi sebagai investor",
+    detail: "Lihat proyek, pelajari risiko, dan coba alur pendanaan simulasi.",
+  },
+  nelayan: {
+    title: "Lihat ruang nelayan",
+    detail: "Pantau proyek, dompet demo, dan perkembangan usaha Anda.",
+  },
+  admin: {
+    title: "Kelola sebagai admin",
+    detail: "Tinjau pengajuan, verifikasi, serta catatan transaksi demo.",
+  },
+  koperasi: {
+    title: "Masuk ke ruang koperasi",
+    detail: "Lihat peran koperasi dalam penerbitan dan pendampingan usaha.",
+  },
+  fasilitator: {
+    title: "Dampingi sebagai fasilitator",
+    detail: "Ikuti kebutuhan nelayan dan catatan pendampingan demo.",
+  },
+};
 export function AuthForm({
   register = false,
   initialRole = "investor",
@@ -75,7 +97,10 @@ export function AuthForm({
       <p className="muted">
         {register
           ? "Buat akun dengan identitas fiktif untuk menjelajahi demo."
-          : "Satu langkah lebih dekat dengan masa depan pesisir."}
+          : "Pilih peran untuk melihat pengalaman yang sesuai dengan Anda."}
+      </p>
+      <p className="role-prompt">
+        {register ? "DAFTAR SEBAGAI" : "COBA SEBAGAI"}
       </p>
       <div className="role-picker">
         {(register
@@ -94,6 +119,7 @@ export function AuthForm({
           <button
             type="button"
             className={selected === id ? "selected" : ""}
+            aria-pressed={selected === id}
             key={id}
             onClick={() => {
               setSelected(id);
@@ -107,6 +133,10 @@ export function AuthForm({
             {label}
           </button>
         ))}
+      </div>
+      <div className="role-explainer" aria-live="polite">
+        <strong>{roleDescriptions[selected].title}</strong>
+        <span>{roleDescriptions[selected].detail}</span>
       </div>
       <form onSubmit={submit} className="form-stack">
         {register && (

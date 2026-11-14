@@ -35,7 +35,7 @@ export function ProjectCard({ offer, now }: { offer: Offer; now: string }) {
             : "Budidaya"}
         </span>
         <span className="image-status">
-          <ShieldCheck size={13} /> Foto ilustrasi · Ledger demo
+          <ShieldCheck size={13} /> Foto ilustrasi · Data demo
         </span>
       </Link>
       <div className="project-card-body">
@@ -56,7 +56,7 @@ export function ProjectCard({ offer, now }: { offer: Offer; now: string }) {
         </h3>
         <p className="issuer">{offer.project.cooperative.name}</p>
         <div className="project-scenario">
-          <span>Skenario hasil tahunan</span>
+          <span>Contoh hasil per tahun</span>
           <strong>
             {offer.scenarioBps / 100}% <small>ilustratif</small>
           </strong>

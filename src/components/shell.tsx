@@ -204,9 +204,10 @@ export function Shell({
             <Icon size={21} />
             <span>
               {label
-                .replace("Jelajahi ", "")
-                .replace(" saya", "")
-                .replace("Pusat ", "")
+                .replace("Jelajahi pendanaan", "Pendanaan")
+                .replace("Portofolio saya", "Portofolio")
+                .replace("Pusat keamanan", "Keamanan")
+                .replace("Profil saya", "Profil")
                 .replace("Verifikasi identitas", "Verifikasi")
                 .replace("Pengajuan & dana", "Pengajuan")}
             </span>

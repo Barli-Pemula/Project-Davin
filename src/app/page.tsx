@@ -201,7 +201,7 @@ export default function Home() {
               [
                 "02",
                 "Pahami sebelum mendanai",
-                "Baca prospektus dan setujui risiko melalui akun demo yang terverifikasi.",
+                "Baca dokumen proyek, pahami risikonya, lalu coba alur pendanaan melalui akun demo.",
               ],
               [
                 "03",
@@ -236,7 +236,7 @@ export default function Home() {
       <footer className="public-footer">
         <Brand />
         <p>
-          Mode Demo · Seluruh identitas, efek, dan saldo bersifat fiktif.
+          Mode Demo · Seluruh identitas, penawaran, dan saldo bersifat fiktif.
           <br />
           Bukan layanan investasi atau transaksi keuangan riil.
           <br />

@@ -144,7 +144,7 @@ function Topup() {
       title="Tambah saldo simulasi"
       trigger={
         <>
-          <Plus size={17} /> Top-up demo
+          <Plus size={17} /> Tambah saldo demo
         </>
       }
     >
@@ -248,9 +248,7 @@ function Catalog({ data, compact = false }: Props & { compact?: boolean }) {
       <div className="section-heading">
         <div>
           <h2>
-            {compact
-              ? "Peluang baik dari pesisir"
-              : "Temukan pendanaan yang berarti"}
+            {compact ? "Peluang baik dari pesisir" : "Temukan proyek pesisir"}
           </h2>
           <p>Kenali usahanya. Pahami risikonya. Tumbuh bersama.</p>
         </div>
@@ -265,7 +263,7 @@ function Catalog({ data, compact = false }: Props & { compact?: boolean }) {
           <Search size={18} />
           <input
             aria-label="Cari proyek atau lokasi"
-            placeholder="Cari proyek atau lokasi…"
+            placeholder="Cari nama usaha atau lokasi…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -311,7 +309,7 @@ function InvestorHome({ data }: Props) {
     <>
       <Heading
         title={`Selamat datang, ${data.user.name.split(" ")[0]}.`}
-        subtitle="Setiap pendanaan, selangkah menuju pesisir yang lebih sejahtera."
+        subtitle="Lihat ringkasan akun, pilih usaha, dan pahami risikonya sebelum mencoba pendanaan."
       >
         <span className="date-chip">{dateID(data.now)}</span>
       </Heading>
@@ -334,9 +332,8 @@ function InvestorHome({ data }: Props) {
               <em>Harapan untuk pesisir.</em>
             </h2>
             <p>
-              Dukung usaha nelayan melalui pendanaan
-              <br className="desktop-only" /> yang transparan dan berlandaskan
-              syariah.
+              Pilih usaha, baca risikonya, lalu coba pendanaan dengan saldo
+              demo.
             </p>
             <Link href="/investor/pendanaan">
               Temukan peluang pendanaan <ArrowUpRight size={17} />
@@ -373,6 +370,10 @@ function InvestorHome({ data }: Props) {
             Dana fiktif, khusus demonstrasi
           </small>
         </section>
+      </div>
+      <div className="mobile-summary-heading">
+        <strong>Ringkasan akun Anda</strong>
+        <span>Semua angka di bawah adalah simulasi.</span>
       </div>
       <div className="stats-grid three">
         <Stat
@@ -412,13 +413,11 @@ function InvestorHome({ data }: Props) {
             </span>
             <span className="eyebrow">BEKAL SEBELUM BERLAYAR</span>
             <h3>
-              Sudah kenal
+              Bagaimana hasil
               <br />
-              akad mudharabah?
+              usaha dibagi?
             </h3>
-            <p>
-              Pahami peran koperasi, risiko, dan cara pembagian hasil usaha.
-            </p>
+            <p>Kenali peran koperasi, akad mudharabah, dan risikonya.</p>
             <Link href="/edukasi">
               Belajar sebentar <ArrowUpRight size={16} />
             </Link>
@@ -429,7 +428,7 @@ function InvestorHome({ data }: Props) {
         <ShieldCheck size={18} />
         <span>
           <strong>Transparan di setiap langkah.</strong> Dana simulasi tercatat
-          dalam ledger dan penawaran ditinjau admin.
+          dalam catatan transaksi dan penawaran ditinjau admin.
         </span>
         <Link href="/edukasi">
           Pelajari <ArrowRight size={15} />
@@ -512,7 +511,7 @@ function OfferingDetail({ data, offer }: Props & { offer: Offer }) {
             <p>{offer.project.plan}</p>
             <div className="info-grid">
               <div>
-                <small>Penerbit efek demo</small>
+                <small>Penerbit penawaran demo</small>
                 <strong>{offer.project.cooperative.name}</strong>
               </div>
               <div>
@@ -526,7 +525,7 @@ function OfferingDetail({ data, offer }: Props & { offer: Offer }) {
                 </strong>
               </div>
               <div>
-                <small>Skenario hasil tahunan</small>
+                <small>Contoh hasil per tahun</small>
                 <strong>
                   {offer.scenarioBps / 100}% · ilustrasi, bukan jaminan
                 </strong>
@@ -2167,7 +2166,7 @@ export function PortalContent({
           <>
             <Heading
               title="Jelajahi pendanaan"
-              subtitle="Usaha nyata dalam cerita, dana fiktif dalam demo. Mulai kenali peluangnya."
+              subtitle="Jelajahi contoh usaha pesisir. Semua dana dan transaksi di sini adalah simulasi."
             />
             <Catalog data={data} />
           </>

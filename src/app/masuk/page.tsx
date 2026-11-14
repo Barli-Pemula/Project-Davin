@@ -1,13 +1,15 @@
 import Image from "next/image";
 import { Brand } from "@/components/brand";
 import { AuthForm } from "@/components/auth-form";
+import { photos } from "@/lib/imagery";
+import Link from "next/link";
 export default function Login() {
   return (
     <main id="main" className="auth-layout">
       <section className="auth-art">
         <Image
-          src="/coast.svg"
-          alt="Laut dan perahu layar"
+          src={photos.fishing.src}
+          alt={photos.fishing.alt}
           fill
           priority
           sizes="50vw"
@@ -38,7 +40,8 @@ export default function Login() {
           <AuthForm />
         </div>
         <small className="auth-disclaimer">
-          Identitas dan saldo fiktif. Tidak ada transaksi uang riil.
+          Identitas dan saldo fiktif. Tidak ada transaksi uang riil.{" "}
+          <Link href="/kredit-foto">Kredit foto</Link>
         </small>
       </section>
     </main>

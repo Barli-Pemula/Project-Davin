@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MapPin, ArrowUpRight, ShieldCheck, Clock3 } from "lucide-react";
 import { rupiah, statusLabel } from "@/lib/utils";
 import type { PortalData } from "@/lib/portal";
+import { projectPhoto } from "@/lib/imagery";
 export type Offer = PortalData["offerings"][number];
 export function ProjectCard({ offer, now }: { offer: Offer; now: string }) {
   const percent = Math.min(
@@ -23,14 +24,10 @@ export function ProjectCard({ offer, now }: { offer: Offer; now: string }) {
         href={`/investor/pendanaan/${offer.slug}`}
       >
         <Image
-          src={
-            offer.project.category === "TANGKAP"
-              ? "/fishing.svg"
-              : "/seaweed.svg"
-          }
+          src={projectPhoto(offer.project.category).src}
           width={800}
           height={480}
-          alt={offer.project.title}
+          alt={`${projectPhoto(offer.project.category).alt}; foto ilustrasi proyek demo`}
         />
         <span className="category-badge">
           {offer.project.category === "TANGKAP"
@@ -38,7 +35,7 @@ export function ProjectCard({ offer, now }: { offer: Offer; now: string }) {
             : "Budidaya"}
         </span>
         <span className="image-status">
-          <ShieldCheck size={13} /> Ledger demo
+          <ShieldCheck size={13} /> Foto ilustrasi · Ledger demo
         </span>
       </Link>
       <div className="project-card-body">

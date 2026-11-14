@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Brand } from "@/components/brand";
 import { Button } from "@/components/ui/button";
+import { photos } from "@/lib/imagery";
 export default function Home() {
   return (
     <div className="landing">
@@ -62,8 +63,8 @@ export default function Home() {
           </div>
           <div className="hero-visual">
             <Image
-              src="/coast.svg"
-              alt="Ilustrasi perahu layar di antara pulau pesisir Indonesia"
+              src={photos.fisher.src}
+              alt={photos.fisher.alt}
               fill
               priority
               sizes="(max-width: 800px) 100vw, 50vw"
@@ -123,8 +124,8 @@ export default function Home() {
           <div className="landing-projects">
             <article className="story-card">
               <Image
-                src="/seaweed.svg"
-                alt="Ilustrasi budidaya rumput laut"
+                src={photos.seaweed.src}
+                alt={photos.seaweed.alt}
                 width={800}
                 height={480}
               />
@@ -142,8 +143,8 @@ export default function Home() {
             </article>
             <article className="story-card">
               <Image
-                src="/fishing.svg"
-                alt="Ilustrasi kapal nelayan"
+                src={photos.fishing.src}
+                alt={photos.fishing.alt}
                 width={800}
                 height={480}
               />
@@ -224,6 +225,8 @@ export default function Home() {
           Mode Demo · Seluruh identitas, efek, dan saldo bersifat fiktif.
           <br />
           Bukan layanan investasi atau transaksi keuangan riil.
+          <br />
+          <Link href="/kredit-foto">Kredit foto pesisir Indonesia</Link>
         </p>
         <span>© 2026 ARTANAYA</span>
       </footer>

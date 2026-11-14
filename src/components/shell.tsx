@@ -194,6 +194,7 @@ export function Shell({
           <footer className="app-footer">
             <span>ARTANAYA · Berlayar. Bertumbuh. Bersama.</span>
             <span>Seluruh dana & transaksi adalah simulasi.</span>
+            <Link href="/kredit-foto">Kredit foto</Link>
           </footer>
         </main>
       </div>

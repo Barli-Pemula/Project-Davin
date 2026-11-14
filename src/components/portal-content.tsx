@@ -2,6 +2,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { photos, projectPhoto } from "@/lib/imagery";
 import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
@@ -343,8 +344,8 @@ function InvestorHome({ data }: Props) {
           </div>
           <div className="portfolio-hero-art">
             <Image
-              src="/coast.svg"
-              alt="Perahu layar di lautan"
+              src={photos.fisher.src}
+              alt={photos.fisher.alt}
               fill
               sizes="(max-width: 760px) 40vw, 30vw"
               priority
@@ -491,16 +492,15 @@ function OfferingDetail({ data, offer }: Props & { offer: Offer }) {
         <div className="detail-main">
           <div className="detail-image">
             <Image
-              src={
-                offer.project.category === "TANGKAP"
-                  ? "/fishing.svg"
-                  : "/seaweed.svg"
-              }
+              src={projectPhoto(offer.project.category).src}
               width={800}
               height={480}
-              alt={offer.project.title}
+              alt={`${projectPhoto(offer.project.category).alt}; foto ilustrasi proyek demo`}
               priority
             />
+            <span className="detail-image-caption">
+              Foto ilustrasi kegiatan pesisir Indonesia
+            </span>
           </div>
           <div className="panel">
             <div className="panel-heading">

@@ -23,6 +23,7 @@ File SQLite lokal tidak dapat dipakai sebagai database persisten di Vercel. Hubu
 | Variabel | Nilai |
 | --- | --- |
 | `DATABASE_URL` | URL PostgreSQL dari integrasi database; awalan `postgresql://` atau `postgres://` |
+| `DATABASE_URL_UNPOOLED` | URL langsung dari Neon untuk migrasi (biasanya ditambahkan otomatis oleh integrasi); hostname tanpa `-pooler` |
 | `AUTH_SECRET` | String acak panjang, minimal 32 karakter; pertahankan nilainya antar redeploy |
 | `AUTH_TRUST_HOST` | `true` |
 | `DEMO_MODE` | `true` |

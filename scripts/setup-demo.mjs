@@ -4,6 +4,14 @@ import { spawnSync } from "node:child_process";
 import { schemaPath } from "./prisma-schema.mjs";
 
 const local = process.env.DATABASE_URL.startsWith("file:");
+const migrationUrl =
+  process.env.DATABASE_URL_UNPOOLED ||
+  process.env.DIRECT_URL ||
+  process.env.DATABASE_URL;
+if (!local && new URL(migrationUrl).hostname.includes("-pooler"))
+  throw new Error(
+    "Migrasi memerlukan URL PostgreSQL langsung. Isi DATABASE_URL_UNPOOLED dengan URL Neon tanpa -pooler.",
+  );
 if (local) {
   const databaseName = process.env.DATABASE_URL.match(
     /^file:\.\.\/\.local-demo\/([a-zA-Z0-9_-]+\.db)$/,
@@ -27,6 +35,10 @@ for (const args of [
     ["node_modules/prisma/build/index.js", ...args],
     {
       stdio: "inherit",
+      env:
+        !local && args[0] === "migrate"
+          ? { ...process.env, DATABASE_URL: migrationUrl }
+          : process.env,
     },
   );
   if (result.status !== 0) process.exit(result.status ?? 1);

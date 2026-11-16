@@ -29,7 +29,7 @@ File SQLite lokal tidak dapat dipakai sebagai database persisten di Vercel. Hubu
 | `DEMO_MODE` | `true` |
 | `DEMO_PASSWORD` | `ArtaDemo!2026` agar cocok dengan tombol akun demo |
 
-Jangan salin `DATABASE_URL=file:...` atau `AUTH_URL=http://localhost:3000` ke Vercel. Bila integrasi memberi nama variabel berbeda, salin **nilainya** ke `DATABASE_URL`. Deploy ulang setelah mengubah variabel. Saat build, aplikasi otomatis menerapkan migrasi dan mengisi akun serta proyek contoh. Tidak perlu menjalankan seed manual di server. URL database dan secret harus tetap rahasia.
+Jangan salin `DATABASE_URL=file:...` atau `AUTH_URL=http://localhost:3000` ke Vercel. Bila integrasi memberi nama variabel berbeda, salin **nilainya** ke `DATABASE_URL`. Deploy ulang setelah mengubah variabel. Build Vercel hanya membuat Prisma Client dan membangun aplikasi; build tidak mengubah database. Untuk database lama, pertahankan proyek Vercel dan semua variabelnya. Bila rilis memiliki migrasi baru, ambil snapshot provider, uji migrasi pada staging, lalu jalankan `npm run db:deploy` satu kali dengan URL PostgreSQL langsung sebelum deploy kode. Jangan jalankan `npm run db:setup` atau seed pada database yang sudah berisi data; seed saat ini dapat memperbarui kata sandi akun demo. URL database dan secret harus tetap rahasia.
 
 ## Akun demo
 

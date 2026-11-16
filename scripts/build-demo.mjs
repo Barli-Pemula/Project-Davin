@@ -14,16 +14,10 @@ if (process.env.VERCEL) {
     );
 }
 
-const steps = process.env.VERCEL
-  ? [["scripts/setup-demo.mjs"]]
-  : [
-      [
-        "node_modules/prisma/build/index.js",
-        "generate",
-        "--schema",
-        schemaPath,
-      ],
-    ];
+// A build never mutates the database. Deploy migrations separately.
+const steps = [
+  ["node_modules/prisma/build/index.js", "generate", "--schema", schemaPath],
+];
 steps.push(["node_modules/next/dist/bin/next", "build", "--webpack"]);
 for (const args of steps) {
   const result = spawnSync(process.execPath, args, { stdio: "inherit" });

@@ -4,6 +4,10 @@ import { spawnSync } from "node:child_process";
 import { schemaPath } from "./prisma-schema.mjs";
 
 const local = process.env.DATABASE_URL.startsWith("file:");
+if (!local && process.env.DEMO_BOOTSTRAP !== "true")
+  throw new Error(
+    "db:setup hanya untuk SQLite lokal. PostgreSQL lama memakai db:deploy; bootstrap demo baru memerlukan DEMO_BOOTSTRAP=true.",
+  );
 const migrationUrl =
   process.env.DATABASE_URL_UNPOOLED ||
   process.env.DIRECT_URL ||

@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:integration": "node scripts/test-integration.mjs",
     "db:generate": "node scripts/generate-client.mjs",
-    "db:migrate": "node scripts/setup-demo.mjs",
+    "db:migrate": "node scripts/deploy-migrations.mjs",
+    "db:deploy": "node scripts/deploy-migrations.mjs",
     "db:seed": "tsx prisma/seed.ts",
     "db:setup": "node scripts/setup-demo.mjs",
     "format": "prettier --write src prisma/*.ts tests scripts"
